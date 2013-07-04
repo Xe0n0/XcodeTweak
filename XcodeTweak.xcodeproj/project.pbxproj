@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		416642DF1785900800A573F7 /* XcodeTweak.m in Resources */ = {isa = PBXBuildFile; fileRef = 416642DD1785900800A573F7 /* XcodeTweak.m */; };
 		416642E01785900800A573F7 /* XcodeTweak.h in Resources */ = {isa = PBXBuildFile; fileRef = 416642DE1785900800A573F7 /* XcodeTweak.h */; };
 		41A24AE1178583E800EA98C4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A24AE0178583E800EA98C4 /* Cocoa.framework */; };
 		41A24AEB178583E800EA98C4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 41A24AE9178583E800EA98C4 /* InfoPlist.strings */; };
+		41A5A5FF178598290002743B /* XcodeTweak.m in Sources */ = {isa = PBXBuildFile; fileRef = 416642DD1785900800A573F7 /* XcodeTweak.m */; };
 		41C0A4B3178594D40097B513 /* JRSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C0A4B2178594D40097B513 /* JRSwizzle.m */; };
+		41D28CD517859AF300DC99B1 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A24AE5178583E800EA98C4 /* AppKit.framework */; };
+		41D28CD717859C7400DC99B1 /* libobjc.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 41D28CD617859C7400DC99B1 /* libobjc.A.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +29,7 @@
 		41A24AEC178583E800EA98C4 /* XcodeTweak-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XcodeTweak-Prefix.pch"; sourceTree = "<group>"; };
 		41C0A4B1178594D40097B513 /* JRSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRSwizzle.h; sourceTree = "<group>"; };
 		41C0A4B2178594D40097B513 /* JRSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRSwizzle.m; sourceTree = "<group>"; };
+		41D28CD617859C7400DC99B1 /* libobjc.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobjc.A.dylib; path = usr/lib/libobjc.A.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +37,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41D28CD717859C7400DC99B1 /* libobjc.A.dylib in Frameworks */,
+				41D28CD517859AF300DC99B1 /* AppKit.framework in Frameworks */,
 				41A24AE1178583E800EA98C4 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -61,6 +66,7 @@
 		41A24ADF178583E800EA98C4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				41D28CD617859C7400DC99B1 /* libobjc.A.dylib */,
 				41A24AE0178583E800EA98C4 /* Cocoa.framework */,
 				41A24AE2178583E800EA98C4 /* Other Frameworks */,
 			);
@@ -152,7 +158,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				416642E01785900800A573F7 /* XcodeTweak.h in Resources */,
-				416642DF1785900800A573F7 /* XcodeTweak.m in Resources */,
 				41A24AEB178583E800EA98C4 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -180,6 +185,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41A5A5FF178598290002743B /* XcodeTweak.m in Sources */,
 				41C0A4B3178594D40097B513 /* JRSwizzle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

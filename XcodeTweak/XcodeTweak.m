@@ -9,14 +9,6 @@
 #import "XcodeTweak.h"
 #import "JRSwizzle.h"
 #import <objc/objc-class.h>
-//#import "IDEWorkspaceWindowController.h"
-
-void XTSelectTab(id self, SEL _cmd, id arg)
-{
-    NSLog(@"%@", arg);
-
-    NSLog(@"%@", [arg superview]) ;
-}
 
 @implementation XcodeTweak
 
@@ -30,8 +22,6 @@ void XTSelectTab(id self, SEL _cmd, id arg)
         NSLog(@"XcodeTweak: error %@", [error localizedDescription]);
         
     }
-    class_addMethod(NSClassFromString(@"IDEWorkspaceWindowController"), @selector(XTSelectTab:), (IMP)XTSelectTab, "v@:");
-    [NSClassFromString(@"IDEWorkspaceWindowController") jr_swizzleMethod:@selector(selectTab:) withMethod:@selector(XTSelectTab:) error:&error];
     NSLog(@"XcodeTweak loaded");
 
 }
@@ -63,33 +53,39 @@ void XTSelectTab(id self, SEL _cmd, id arg)
         
         if (tabIndex != NSNotFound)
         {
-            NSViewController *vc = [NSApplication sharedApplication].keyWindow.windowController;
+
+            NSArray *array = [[NSApplication sharedApplication].keyWindow.contentView subviews];
+
 
             
-            if ([vc respondsToSelector:@selector(orderedTabViewItems)] // check safari API compat
-                && [vc respondsToSelector:@selector(selectTab:)])
+            
+            if (array.count && [array[0] respondsToSelector:@selector(numberOfTabViewItems)] // check safari API compat
+                && [array[0] respondsToSelector:@selector(selectTabViewItemAtIndex:)])
             {
-                NSArray *tabs = [vc performSelector:@selector(orderedTabViewItems)];
+                NSView *tabSwitcher = array[0];
+
                 NSInteger newTabIndex = -1;
-                NSLog(@"%@", tabs);
+                
+                long long tabcount = (long long)[tabSwitcher performSelector:@selector(numberOfTabViewItems) withObject:nil];
+                
                 if (tabIndex == 8)
                 {
-                    newTabIndex = tabs.count - 1;
+                    newTabIndex = tabcount - 1;
                 }
-                else if (tabs.count >= (tabIndex + 1))
+                else if (tabcount >= (tabIndex + 1))
                 {
                     newTabIndex = tabIndex;
                 }
                 
                 if (newTabIndex >= 0)
                 {
-                    NSObject *tab = tabs[newTabIndex];
-                    NSLog(@"%@", tab);
-                    [vc performSelector:@selector(selectTab:) withObject:tab];
+
+                    [tabSwitcher performSelector:@selector(selectTabViewItemAtIndex:) withObject:(id)newTabIndex];
                 }
                 
                 return; // prevent event dispatching
             }
+
         }
         
     }

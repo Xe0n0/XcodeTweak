@@ -7,11 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		416642DF1785900800A573F7 /* XcodeTweak.m in Resources */ = {isa = PBXBuildFile; fileRef = 416642DD1785900800A573F7 /* XcodeTweak.m */; };
+		416642E01785900800A573F7 /* XcodeTweak.h in Resources */ = {isa = PBXBuildFile; fileRef = 416642DE1785900800A573F7 /* XcodeTweak.h */; };
 		41A24AE1178583E800EA98C4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A24AE0178583E800EA98C4 /* Cocoa.framework */; };
 		41A24AEB178583E800EA98C4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 41A24AE9178583E800EA98C4 /* InfoPlist.strings */; };
+		41C0A4B3178594D40097B513 /* JRSwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C0A4B2178594D40097B513 /* JRSwizzle.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		416642DD1785900800A573F7 /* XcodeTweak.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XcodeTweak.m; sourceTree = "<group>"; };
+		416642DE1785900800A573F7 /* XcodeTweak.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XcodeTweak.h; sourceTree = "<group>"; };
 		41A24ADD178583E800EA98C4 /* XcodeTweak.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XcodeTweak.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		41A24AE0178583E800EA98C4 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		41A24AE3178583E800EA98C4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -20,6 +25,8 @@
 		41A24AE8178583E800EA98C4 /* XcodeTweak-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "XcodeTweak-Info.plist"; sourceTree = "<group>"; };
 		41A24AEA178583E800EA98C4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		41A24AEC178583E800EA98C4 /* XcodeTweak-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XcodeTweak-Prefix.pch"; sourceTree = "<group>"; };
+		41C0A4B1178594D40097B513 /* JRSwizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JRSwizzle.h; sourceTree = "<group>"; };
+		41C0A4B2178594D40097B513 /* JRSwizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JRSwizzle.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +80,10 @@
 		41A24AE6178583E800EA98C4 /* XcodeTweak */ = {
 			isa = PBXGroup;
 			children = (
+				41C0A4B1178594D40097B513 /* JRSwizzle.h */,
+				41C0A4B2178594D40097B513 /* JRSwizzle.m */,
+				416642DE1785900800A573F7 /* XcodeTweak.h */,
+				416642DD1785900800A573F7 /* XcodeTweak.m */,
 				41A24AE7178583E800EA98C4 /* Supporting Files */,
 			);
 			path = XcodeTweak;
@@ -98,6 +109,7 @@
 				41A24AD9178583E800EA98C4 /* Sources */,
 				41A24ADA178583E800EA98C4 /* Frameworks */,
 				41A24ADB178583E800EA98C4 /* Resources */,
+				416CA81417858F670041ACF3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -139,17 +151,36 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				416642E01785900800A573F7 /* XcodeTweak.h in Resources */,
+				416642DF1785900800A573F7 /* XcodeTweak.m in Resources */,
 				41A24AEB178583E800EA98C4 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		416CA81417858F670041ACF3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# clean up any previous products/symbolic links in the SIMBL Plugins folder\nif [ -a \"${USER_LIBRARY_DIR}/Application Support/SIMBL/Plugins/${FULL_PRODUCT_NAME}\" ]; then\nrm -Rf \"${USER_LIBRARY_DIR}/Application Support/SIMBL/Plugins/${FULL_PRODUCT_NAME}\"\nfi\n\n# Depending on the build configuration, either copy or link to the most recent product\nif [ \"${CONFIGURATION}\" == \"Debug\" ]; then\n# if we're debugging, add a symbolic link to the plug-in\nln -sf \"${TARGET_BUILD_DIR}/${FULL_PRODUCT_NAME}\" \"${USER_LIBRARY_DIR}/Application Support/SIMBL/Plugins/${FULL_PRODUCT_NAME}\"\nelif [ \"${CONFIGURATION}\" == \"Release\" ]; then\n# if we're compiling for release, just copy the plugin to the SIMBL Plugins folder\ncp -Rfv \"${TARGET_BUILD_DIR}/${FULL_PRODUCT_NAME}\" \"${USER_LIBRARY_DIR}/Application Support/SIMBL/Plugins/${FULL_PRODUCT_NAME}\"\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		41A24AD9178583E800EA98C4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41C0A4B3178594D40097B513 /* JRSwizzle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -174,7 +205,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -212,7 +243,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -243,9 +274,12 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "XcodeTweak/XcodeTweak-Prefix.pch";
+				GCC_WARN_UNDECLARED_SELECTOR = NO;
 				INFOPLIST_FILE = "XcodeTweak/XcodeTweak-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "x86_64 i386";
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
@@ -256,9 +290,12 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "XcodeTweak/XcodeTweak-Prefix.pch";
+				GCC_WARN_UNDECLARED_SELECTOR = NO;
 				INFOPLIST_FILE = "XcodeTweak/XcodeTweak-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "x86_64 i386";
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Release;
@@ -282,6 +319,7 @@
 				41A24AF1178583E800EA98C4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
